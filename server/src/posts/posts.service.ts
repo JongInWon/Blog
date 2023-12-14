@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { PostsModel } from './entities/posts.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -28,7 +28,22 @@ export class PostsService {
     });
   }
 
-  async paginatePosts(dto: PaginatePostDto) {}
+  // 오름차순으로 정렬하는 pagination
+  async paginatePosts(dto: PaginatePostDto) {
+    const posts = await this.postsRepository.find({
+      where: {
+        id: MoreThan(dto.where__id_more_than ?? 0),
+      },
+      order: {
+        createAt: dto.order__createAt,
+      },
+      take: dto.take,
+    });
+
+    return {
+      data: posts,
+    };
+  }
 
   async getPostById(id: number) {
     const post = await this.postsRepository.findOne({

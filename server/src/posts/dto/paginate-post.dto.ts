@@ -7,7 +7,7 @@ export class PaginatePostDto {
   where__id_more_than?: number;
 
   // 정렬
-  @IsIn(['ASC'])
+  @IsIn(['ASC']) // 리스트에 있는 값들만 허용
   @IsOptional()
   order__createAt: 'ASC' = 'ASC';
 
