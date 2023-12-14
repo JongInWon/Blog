@@ -4,9 +4,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export class BaseModel {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export abstract class BaseModel {
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @CreateDateColumn()
   createAt: Date;
